@@ -6,11 +6,20 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
+  Title,
   Tooltip,
   Legend,
 } from "chart.js";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const ProgressChart = ({ data }) => {
   const chartData = {
@@ -19,8 +28,9 @@ const ProgressChart = ({ data }) => {
       {
         label: "Total Weight Lifted (kg)",
         data: data.map((item) => item.totalWeight),
-        fill: false,
-        borderColor: "#2563eb", // blue line
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37,99,235,0.2)",
+        fill: true,
         tension: 0.3,
       },
     ],
@@ -29,20 +39,13 @@ const ProgressChart = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { display: true, position: "top" },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
+      legend: { position: "top" },
+      title: { display: true, text: "Workout Progress Over Time" },
     },
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-      <h3 className="text-lg font-semibold text-blue-700 mb-3">
-        Progress Over Time
-      </h3>
+    <div className="p-4 bg-white rounded-xl shadow-md mt-6">
       <Line data={chartData} options={options} />
     </div>
   );
