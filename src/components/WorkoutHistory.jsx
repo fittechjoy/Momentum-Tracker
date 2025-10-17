@@ -1,19 +1,18 @@
-export default function WorkoutHistory() {
-  const dummyHistory = [
-    { id: 1, exercise: "Squats", sets: 3, reps: 12, weight: 40 },
-    { id: 2, exercise: "Push Ups", sets: 4, reps: 10, weight: 0 },
-  ];
-
+export default function WorkoutHistory({ workouts }) {
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <h2 className="text-xl font-semibold mb-2">Workout History</h2>
-      <ul>
-        {dummyHistory.map((item) => (
-          <li key={item.id} className="border-b py-2">
-            <strong>{item.exercise}</strong> — {item.sets} sets × {item.reps} reps ({item.weight}kg)
-          </li>
-        ))}
-      </ul>
+      {workouts.length === 0 ? (
+        <p className="text-gray-500">No workouts logged yet.</p>
+      ) : (
+        <ul>
+          {workouts.map((item) => (
+            <li key={item.id} className="border-b py-2">
+              <strong>{item.exercise}</strong> — {item.sets} sets × {item.reps} reps ({item.weight}kg)
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
