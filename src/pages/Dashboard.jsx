@@ -3,6 +3,7 @@ import WorkoutForm from "../components/WorkoutForm";
 import WorkoutHistory from "../components/WorkoutHistory";
 import MomentumScore from "../components/MomentumScore";
 import ProgressChart from "../components/ProgressChart";
+import ExerciseList from "../components/ExerciseList";
 
 export default function Dashboard() {
   const [workouts, setWorkouts] = useState([]);
@@ -64,6 +65,8 @@ export default function Dashboard() {
         <ProgressChart data={progressData} />
       </div>
       <WorkoutHistory workouts={workouts} />
+      <ExerciseList />
+
     </div>
   );
 }
