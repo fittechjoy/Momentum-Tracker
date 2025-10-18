@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import "./index.css";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -18,18 +19,18 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 px-4 md:px-8 py-6">
+    <div className="app">
       {user ? (
         <>
           <Navbar user={user} />
-          <div className="p-6">
+          <div className="container">
             <ErrorBoundary>
               <Dashboard user={user} />
             </ErrorBoundary>
           </div>
         </>
       ) : (
-        <div className="p-6 space-y-10">
+        <div className="container space-y-10">
           <Login />
           <Signup />
         </div>

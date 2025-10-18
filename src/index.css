@@ -1,3 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/index.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: #121212; /* black background */
+  color: #ffffff;            /* default white text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.container {
+  padding: 1.5rem;
+}
+
+.space-y-10 > * + * {
+  margin-top: 2.5rem;
+}
+
+/* Buttons */
+button {
+  background-color: #1e90ff; /* blue */
+  color: #ffffff;             /* white text */
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #3399ff; /* lighter blue on hover */
+}
+
+/* Inputs */
+input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #1e90ff;
+  background-color: #1a1a1a; /* dark input background */
+  color: #ffffff;
+}
+
+input::placeholder {
+  color: #cccccc;
+}
+
+/* Headings */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #1e90ff; /* blue heading */
+}
+
+p {
+  font-size: 1.2rem;
+  color: #ffffff; /* white text for paragraphs */
+}

@@ -19,17 +19,15 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-6 max-w-sm mx-auto">
-      <h2 className="text-2xl font-semibold text-blue-700 mb-4 text-center">
-        Log In
-      </h2>
-      <form onSubmit={handleLogin} className="space-y-3">
+    <div className="auth-form">
+      <h2 className="auth-heading">LOGIN TO MOMENTUM TRACKER</h2>
+      <form onSubmit={handleLogin} className="flex flex-col space-y-3">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="auth-input"
           required
         />
         <input
@@ -37,15 +35,11 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="auth-input"
           required
         />
         {error && <p className="text-red-600 text-sm">{error}</p>}
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-        >
+        <button type="submit" className="auth-button">
           Log In
         </button>
       </form>
