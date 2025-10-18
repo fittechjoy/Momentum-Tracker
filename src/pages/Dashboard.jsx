@@ -51,26 +51,26 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
-  {/* LEFT COLUMN */}
+  <div className="grid md:grid-cols-2 gap-6">
   <div className="space-y-6">
     <WorkoutForm onAddWorkout={addWorkout} />
     <MomentumScore workouts={workouts} />
     <button
       onClick={clearWorkouts}
-      className="mt-3 w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition"
+      className="mt-3 mb-4 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition"
     >
       Clear All Workouts
     </button>
     <ProgressChart data={progressData} />
   </div>
 
-  {/* RIGHT COLUMN */}
-  <div className="space-y-6">
+  {/* Make right column scrollable on mobile */}
+  <div className="md:max-h-[80vh] md:overflow-y-auto space-y-6">
     <WorkoutHistory workouts={workouts} />
     <SearchExercises />
   </div>
 </div>
+
 
   );
 }
