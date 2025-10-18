@@ -1,80 +1,34 @@
-import { useEffect, useState } from "react";
-
-export default function ExerciseList() {
-  const [exercises, setExercises] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchExercises = async () => {
-      try {
-        // ✅ use "exerciseinfo" endpoint which includes names and images
-        const response = await fetch("https://wger.de/api/v2/exerciseinfo/?language=2&limit=50");
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-        console.log("Fetched exercises:", data);
-
-        setExercises(data.results || []);
-      } catch (err) {
-        console.error("Error fetching exercises:", err);
-        setError("Failed to load exercises. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchExercises();
-  }, []);
-
-  const filteredExercises = exercises.filter((ex) =>
-    ex.name?.toLowerCase().includes(search.toLowerCase())
-  );
-
-  if (loading) return <p className="text-center text-gray-600">Loading exercises...</p>;
-  if (error) return <p className="text-center text-red-600">{error}</p>;
-
+// src/components/ExerciseList.jsx
+export default function ExerciseList({ exercises }) {
   return (
-    <div className="bg-white shadow-md rounded-xl p-6 mt-8">
-      <h2 className="text-2xl font-semibold text-blue-700 mb-4">Exercise Library</h2>
-
-      <input
-        type="text"
-        placeholder="Search exercises..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="border border-gray-300 rounded-lg px-3 py-2 w-full mb-4 focus:ring-2 focus:ring-blue-500 outline-none"
-      />
-
-      {filteredExercises.length > 0 ? (
-        <ul className="space-y-3 max-h-96 overflow-y-auto">
-          {filteredExercises.map((exercise) => (
-            <li key={exercise.id} className="border-b border-gray-200 pb-2 last:border-b-0">
-              <p className="font-medium text-gray-800">{exercise.name}</p>
-
-              {exercise.description ? (
-                <p
-                  className="text-sm text-gray-600"
-                  dangerouslySetInnerHTML={{ __html: exercise.description }}
-                />
-              ) : (
-                <p className="text-sm text-gray-400">No description available.</p>
-              )}
-
-              {exercise.images?.length > 0 && (
-                <img
-                  src={exercise.images[0].image}
-                  alt={exercise.name}
-                  className="mt-2 rounded-lg"
-                />
-              )}
-            </li>
+    <div className="mt-6">
+      <h2 className="text-2xl font-bold mb-4">Exercise Results</h2>
+      {exercises.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {exercises.map((exercise) => (
+            <div
+              key={exercise.id}
+              className="p-4 bg-white rounded-lg shadow hover:shadow-md transition"
+            >
+              <img
+                src={exercise.gifUrl}
+                alt={exercise.name}
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <h3 className="text-lg font-semibold mt-2 capitalize">
+                {exercise.name}
+              </h3>
+              <p className="text-sm text-gray-600">
+                <strong>Body Part:</strong> {exercise.bodyPart}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Target:</strong> {exercise.target}
+              </p>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
-        <p className="text-center text-gray-500">No exercises found.</p>
+        <p className="text-gray-600">No exercises found. Try searching above!</p>
       )}
     </div>
   );

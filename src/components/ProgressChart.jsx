@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler, // ✅ import Filler
 } from "chart.js";
 
 ChartJS.register(
@@ -18,7 +19,8 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler // ✅ register Filler
 );
 
 const ProgressChart = ({ data }) => {
@@ -30,7 +32,7 @@ const ProgressChart = ({ data }) => {
         data: data.map((item) => item.totalWeight),
         borderColor: "#2563eb",
         backgroundColor: "rgba(37,99,235,0.2)",
-        fill: true,
+        fill: true, // ✅ now this will work
         tension: 0.3,
       },
     ],

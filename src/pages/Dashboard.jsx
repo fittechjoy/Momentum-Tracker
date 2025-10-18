@@ -4,6 +4,7 @@ import WorkoutHistory from "../components/WorkoutHistory";
 import MomentumScore from "../components/MomentumScore";
 import ProgressChart from "../components/ProgressChart";
 import ExerciseList from "../components/ExerciseList";
+import SearchExercises from "../components/SearchExercises";
 
 export default function Dashboard() {
   const [workouts, setWorkouts] = useState([]);
@@ -51,6 +52,7 @@ export default function Dashboard() {
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
+      {/* LEFT COLUMN: user workouts */}
       <div>
         <WorkoutForm onAddWorkout={addWorkout} />
         <MomentumScore workouts={workouts} />
@@ -64,9 +66,12 @@ export default function Dashboard() {
 
         <ProgressChart data={progressData} />
       </div>
-      <WorkoutHistory workouts={workouts} />
-      <ExerciseList />
 
+      {/* RIGHT COLUMN: exercise resources */}
+      <div>
+        <WorkoutHistory workouts={workouts} />
+        <SearchExercises />
+      </div>
     </div>
   );
 }
