@@ -7,16 +7,29 @@ export default function WorkoutForm({ onAddWorkout }) {
     reps: "",
     weight: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // clear error as user types
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.exercise) return;
+
+    if (
+      !formData.exercise ||
+      !formData.sets ||
+      !formData.reps ||
+      !formData.weight
+    ) {
+      setError("⚠️ Please fill in all workout details before saving.");
+      return;
+    }
+
     onAddWorkout(formData);
-    setFormData({ exercise: "", sets: "", reps: "", weight: "" }); // reset
+    setFormData({ exercise: "", sets: "", reps: "", weight: "" });
+    setError("");
   };
 
   return (
@@ -62,6 +75,12 @@ export default function WorkoutForm({ onAddWorkout }) {
           Add Workout
         </button>
       </form>
+
+      {error && (
+        <p className="text-red-600 mt-2 text-sm font-medium bg-red-50 p-2 rounded">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

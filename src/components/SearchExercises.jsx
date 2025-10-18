@@ -8,7 +8,6 @@ export default function SearchExercises() {
   const API_KEY = import.meta.env.VITE_API_NINJAS_KEY;
 
   useEffect(() => {
-    // Only fetch when search is not empty
     if (search.trim() === "") {
       setExercises([]);
       return;
@@ -25,7 +24,6 @@ export default function SearchExercises() {
 
         if (!response.ok) throw new Error("API request failed");
         const data = await response.json();
-
         setExercises(data);
       } catch (err) {
         setError("Failed to load exercises. Please try again.");
@@ -35,7 +33,21 @@ export default function SearchExercises() {
     };
 
     fetchExercises();
-  }, [search]); // <-- triggers when user types
+  }, [search]);
+
+  // 💥 Add this error block ABOVE the main return
+  if (error)
+    return (
+      <div className="text-center text-red-600 p-6 bg-red-50 rounded-lg mt-8 shadow-md">
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-3 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+        >
+          Retry
+        </button>
+      </div>
+    );
 
   return (
     <div className="bg-white shadow-md rounded-xl p-6 mt-8">
@@ -52,11 +64,13 @@ export default function SearchExercises() {
       />
 
       {loading && <p>Loading exercises...</p>}
-      {error && <p className="text-red-600">{error}</p>}
 
       <ul className="space-y-3 max-h-96 overflow-y-auto">
         {exercises.map((exercise) => (
-          <li key={exercise.name} className="border-b border-gray-200 pb-2 last:border-b-0">
+          <li
+            key={exercise.name}
+            className="border-b border-gray-200 pb-2 last:border-b-0"
+          >
             <p className="font-medium text-gray-800">{exercise.name}</p>
             <p className="text-sm text-gray-600">
               <strong>Type:</strong> {exercise.type} |{" "}
