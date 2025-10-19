@@ -11,7 +11,13 @@ import Profile from "./pages/Profile";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100">
+  <div
+  className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100 bg-center bg-cover bg-fixed"
+  style={{
+    backgroundImage: `url('/src/assets/gym-bg.jpg')`,
+    backgroundBlendMode: "overlay",
+  }}
+>
       {/* Navbar shows on authenticated sections later; for now show everywhere */}
       <Navbar />
 
