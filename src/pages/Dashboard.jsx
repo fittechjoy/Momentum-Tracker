@@ -1,4 +1,16 @@
 import { useState, useEffect } from "react";
+import { db } from "../firebaseConfig";
+import { useAuth } from "../context/AuthContext";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+
 import WorkoutForm from "../components/WorkoutForm";
 import WorkoutHistory from "../components/WorkoutHistory";
 import MomentumScore from "../components/MomentumScore";
@@ -6,22 +18,40 @@ import ProgressChart from "../components/ProgressChart";
 import SearchExercises from "../components/SearchExercises";
 
 export default function Dashboard() {
+  const { currentUser } = useAuth();
   const [workouts, setWorkouts] = useState([]);
   const [progressData, setProgressData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Load workouts from localStorage when app starts
+  // ✅ Fetch workouts from Firestore
   useEffect(() => {
-    const savedWorkouts = JSON.parse(localStorage.getItem("workouts"));
-    if (savedWorkouts) {
-      setWorkouts(savedWorkouts);
-    }
-  }, []);
+    const fetchWorkouts = async () => {
+      if (!currentUser) return;
 
-  // Save workouts + update chart
+      try {
+        const q = query(
+          collection(db, "workouts"),
+          where("userId", "==", currentUser.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setWorkouts(data);
+      } catch (err) {
+        console.error("Error fetching workouts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkouts();
+  }, [currentUser]);
+
+  // ✅ Update progress chart whenever workouts change
   useEffect(() => {
-    localStorage.setItem("workouts", JSON.stringify(workouts));
-
-    if (workouts.length === 0) {
+    if (!workouts.length) {
       setProgressData([]);
       return;
     }
@@ -34,59 +64,67 @@ export default function Dashboard() {
     setProgressData(data);
   }, [workouts]);
 
-  const addWorkout = (workout) => {
-    setWorkouts([
-      ...workouts,
-      { ...workout, id: Date.now(), date: new Date().toLocaleDateString() },
-    ]);
-  };
+  // ✅ Add workout to Firestore
+  const addWorkout = async (workout) => {
+    if (!currentUser) return;
 
-  const clearWorkouts = () => {
-    if (confirm("Are you sure you want to delete all workouts?")) {
-      setWorkouts([]);
-      localStorage.removeItem("workouts");
+    const newWorkout = {
+      ...workout,
+      userId: currentUser.uid,
+      date: new Date().toLocaleDateString(),
+    };
+
+    try {
+      const docRef = await addDoc(collection(db, "workouts"), newWorkout);
+      setWorkouts([...workouts, { id: docRef.id, ...newWorkout }]);
+    } catch (err) {
+      console.error("Error adding workout:", err);
     }
   };
 
-  return (
-  <div className="max-w-6xl mx-auto py-8 px-4">
-    <h1 className="text-3xl font-bold text-white mb-6">Dashboard</h1>
+  // ✅ Clear all workouts (for this user)
+  const clearWorkouts = async () => {
+    if (!confirm("Are you sure you want to delete all workouts?")) return;
+    if (!currentUser) return;
 
-    <div className="grid md:grid-cols-2 gap-6">
+    try {
+      const q = query(
+        collection(db, "workouts"),
+        where("userId", "==", currentUser.uid)
+      );
+      const querySnapshot = await getDocs(q);
+
+      const deletes = querySnapshot.docs.map((d) => deleteDoc(doc(db, "workouts", d.id)));
+      await Promise.all(deletes);
+
+      setWorkouts([]);
+    } catch (err) {
+      console.error("Error clearing workouts:", err);
+    }
+  };
+
+  if (loading) return <p className="mt-10 text-center">Loading your workouts...</p>;
+
+  return (
+    <div className="grid md:grid-cols-2 gap-6 mt-6">
       {/* LEFT column */}
       <div className="space-y-6">
-        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
-          <WorkoutForm onAddWorkout={addWorkout} />
-        </div>
-
-        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
-          <MomentumScore workouts={workouts} />
-        </div>
-
+        <WorkoutForm onAddWorkout={addWorkout} />
+        <MomentumScore workouts={workouts} />
         <button
           onClick={clearWorkouts}
-          className="block w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition"
+          className="mt-3 mb-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition"
         >
           Clear All Workouts
         </button>
-
-        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
-          <ProgressChart data={progressData} />
-        </div>
+        <ProgressChart data={progressData} />
       </div>
 
       {/* RIGHT column */}
-      <div className="space-y-6 md:max-h-[80vh] md:overflow-y-auto">
-        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
-          <WorkoutHistory workouts={workouts} />
-        </div>
-
-        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
-          <SearchExercises />
-        </div>
+      <div className="space-y-6">
+        <WorkoutHistory workouts={workouts} />
+        <SearchExercises />
       </div>
     </div>
-  </div>
-);
-
+  );
 }
