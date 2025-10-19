@@ -9,8 +9,11 @@ import Progress from "./pages/Progress";
 import Plans from "./pages/Plans";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";   // ✅ Add this
 
 export default function App() {
+  const { currentUser } = useAuth();   // ✅ Access logged-in user
+
   return (
     <div
       className="min-h-screen bg-center bg-cover bg-fixed relative text-slate-100"
@@ -23,7 +26,9 @@ export default function App() {
 
       {/* ✅ Page content stays above overlay */}
       <div className="relative">
-        <Navbar />
+
+        {/* ✅ Show Navbar ONLY when logged in */}
+        {currentUser && <Navbar />}
 
         <Routes>
           {/* ✅ Public Routes */}
