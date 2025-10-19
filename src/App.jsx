@@ -18,7 +18,8 @@ export default function App() {
     <div
       className="min-h-screen bg-center bg-cover bg-fixed relative text-slate-100"
       style={{
-        backgroundImage: `url('/src/assets/gym-bg.jpg')`,
+        backgroundImage: `url('/gym-bg.jpg')`,
+
       }}
     >
       {/* ✅ Dark overlay to improve readability */}
