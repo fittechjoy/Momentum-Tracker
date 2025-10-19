@@ -1,6 +1,6 @@
 Momentum Fitness Tracker
 
-Momentum Fitness Tracker is a modern web app designed to help users plan workouts, track exercise history, monitor progress, and stay consistent. It features authentication, exercise search, workout logging, progress visualization, and customizable goals — all wrapped in a clean, friendly UI.
+Momentum Fitness Tracker is a modern web app designed to help users plan workouts, track exercise history, monitor progress, and stay consistent. It features authentication, exercise search, workout logging, progress visualization, and customizable goals, all wrapped in a clean, friendly UI.
 
    Features
 
@@ -23,7 +23,7 @@ Track your progress with charts and historical stats.
 Update your display name, age, goals, and workout days.
 
 ✅ Responsive UI
-Designed with Tailwind CSS — optimized for both mobile and desktop.
+Designed with Tailwind CSS, optimized for both mobile and desktop.
 
 🛠️ Tech Stack
 
