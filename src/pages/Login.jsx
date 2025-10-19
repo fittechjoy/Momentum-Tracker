@@ -15,10 +15,11 @@ export default function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to dashboard after login
-    } catch (err) {
-      setError("Invalid email or password. Try again.");
-    }
+    navigate("/", { replace: true }); 
+  } catch (err) {
+    setError("Invalid email or password. Try again.");
+  }  
+
   };
 
   return (
@@ -38,6 +39,7 @@ export default function Login() {
           <input
             id="email"
             type="email"
+            autoComplete="email"               
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
@@ -52,6 +54,7 @@ export default function Login() {
           <input
             id="password"
             type="password"
+            autoComplete="current-password"    
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
@@ -69,7 +72,10 @@ export default function Login() {
 
       <p className="text-sm text-slate-300 mt-4 text-center">
         No account?{" "}
-        <Link to="/signup" className="text-indigo-400 hover:text-indigo-300 underline">
+        <Link
+          to="/signup"
+          className="text-indigo-400 hover:text-indigo-300 underline"
+        >
           Create one
         </Link>
       </p>

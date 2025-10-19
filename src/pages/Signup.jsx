@@ -35,47 +35,51 @@ export default function Signup() {
       {error && <p className="text-red-400 mb-2">{error}</p>}
 
       <form className="space-y-4" onSubmit={handleSignup}>
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm text-slate-200">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            placeholder="you@example.com"
-          />
-        </div>
+       <div className="space-y-2">
+  <label htmlFor="email" className="text-sm text-slate-200">
+    Email
+  </label>
+  <input
+    id="email"
+    type="email"
+    autoComplete="email"           // ✅ Added
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+    placeholder="you@example.com"
+  />
+</div>
 
-        <div className="space-y-2">
-          <label htmlFor="password" className="text-sm text-slate-200">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            placeholder="At least 6 characters"
-          />
-        </div>
+<div className="space-y-2">
+  <label htmlFor="password" className="text-sm text-slate-200">
+    Password
+  </label>
+  <input
+    id="password"
+    type="password"
+    autoComplete="new-password"   // ✅ Added
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+    placeholder="At least 6 characters"
+  />
+</div>
 
-        <div className="space-y-2">
-          <label htmlFor="confirm" className="text-sm text-slate-200">
-            Confirm Password
-          </label>
-          <input
-            id="confirm"
-            type="password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            placeholder="Repeat password"
-          />
-        </div>
+<div className="space-y-2">
+  <label htmlFor="confirm" className="text-sm text-slate-200">
+    Confirm Password
+  </label>
+  <input
+    id="confirm"
+    type="password"
+    autoComplete="new-password"   // ✅ Added
+    value={confirm}
+    onChange={(e) => setConfirm(e.target.value)}
+    className="w-full rounded-lg bg-slate-900/70 border border-white/10 px-3 py-2 text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+    placeholder="Repeat password"
+  />
+</div>
+ 
 
         <button
           type="submit"
