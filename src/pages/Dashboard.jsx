@@ -49,25 +49,44 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-6 mt-6">
+  <div className="max-w-6xl mx-auto py-8 px-4">
+    <h1 className="text-3xl font-bold text-white mb-6">Dashboard</h1>
+
+    <div className="grid md:grid-cols-2 gap-6">
       {/* LEFT column */}
       <div className="space-y-6">
-        <WorkoutForm onAddWorkout={addWorkout} />
-        <MomentumScore workouts={workouts} />
+        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
+          <WorkoutForm onAddWorkout={addWorkout} />
+        </div>
+
+        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
+          <MomentumScore workouts={workouts} />
+        </div>
+
         <button
           onClick={clearWorkouts}
-          className="mt-3 mb-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition"
+          className="block w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition"
         >
           Clear All Workouts
         </button>
-        <ProgressChart data={progressData} />
+
+        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
+          <ProgressChart data={progressData} />
+        </div>
       </div>
 
       {/* RIGHT column */}
-      <div className="space-y-6">
-        <WorkoutHistory workouts={workouts} />
-        <SearchExercises />
+      <div className="space-y-6 md:max-h-[80vh] md:overflow-y-auto">
+        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
+          <WorkoutHistory workouts={workouts} />
+        </div>
+
+        <div className="bg-slate-900/50 border border-white/10 backdrop-blur-xl rounded-2xl p-5 shadow-soft">
+          <SearchExercises />
+        </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
