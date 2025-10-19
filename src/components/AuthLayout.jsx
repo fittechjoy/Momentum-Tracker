@@ -1,3 +1,5 @@
+import gymBg from "../assets/gym-bg.jpg";
+
 export default function AuthLayout({ children }) {
   return (
     <div
@@ -10,7 +12,7 @@ export default function AuthLayout({ children }) {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-center bg-cover opacity-25"
-        style={{ backgroundImage: "url('/weights.jpg')" }}
+        style={{ backgroundImage:  `url(${gymBg})` }}
         aria-hidden="true"
       />
 
