@@ -1,11 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Later this will clear Firebase auth — for now it's just navigation
+    navigate("/login");
+  };
+
   return (
     <nav className="bg-slate-900 border-b border-slate-700 px-6 py-4 flex justify-between items-center shadow">
       <h1 className="text-xl font-bold text-blue-400">Momentum Tracker</h1>
 
-      <div className="space-x-6">
+      <div className="space-x-6 flex items-center">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -60,6 +67,14 @@ export default function Navbar() {
         >
           Profile
         </NavLink>
+
+        {/* ✅ Temporary Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="ml-4 bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-lg"
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
