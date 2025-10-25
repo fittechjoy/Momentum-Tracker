@@ -9,27 +9,21 @@ import Progress from "./pages/Progress";
 import Plans from "./pages/Plans";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";   // ✅ Add this
 
 export default function App() {
-  const { currentUser } = useAuth();   // ✅ Access logged-in user
-
   return (
     <div
-      className="min-h-screen bg-center bg-cover bg-fixed relative text-slate-100"
+      className="min-h-screen bg-center bg-cover bg-fixed relative text-slate-100 overflow-x-hidden"
       style={{
-        backgroundImage: `url('/gym-bg.jpg')`,
-
+        backgroundImage: `url('/src/assets/gym-bg.jpg')`,
       }}
     >
-      {/* ✅ Dark overlay to improve readability */}
+      {/* ✅ Overlay for readability */}
       <div className="absolute inset-0 bg-slate-900/70"></div>
 
-      {/* ✅ Page content stays above overlay */}
-      <div className="relative">
-
-        {/* ✅ Show Navbar ONLY when logged in */}
-        {currentUser && <Navbar />}
+      {/* ✅ Page Content */}
+      <div className="relative container mx-auto px-4 sm:px-6 md:px-8">
+        <Navbar />
 
         <Routes>
           {/* ✅ Public Routes */}
@@ -92,7 +86,7 @@ export default function App() {
             }
           />
 
-          {/* ✅ Catch-all */}
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
